@@ -10,7 +10,7 @@ test('Listening local state is scoped by Hub user namespace',()=>{
   assert.doesNotMatch(html,/__safeStorage\.getItem\(STORE_KEY\)/);
   assert.doesNotMatch(html,/__safeStorage\.setItem\(STORE_KEY/);
   assert.doesNotMatch(html,/localStorage\.removeItem\(STORE_KEY\)/);
-  assert.match(html,/localStorage\.removeItem\(storageKey\(\)\)/);
+  assert.match(html,/__safeStorage\.removeItem\(storageKey\(\)\)/);
 });
 
 test('embedded Listening waits for authenticated Hub context before loading state',()=>{
