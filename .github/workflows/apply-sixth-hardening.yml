@@ -1,0 +1,37 @@
+name: Apply Sixth Hardening
+on:
+  push:
+    branches: [fix/sixth-hardening-audit-20261015]
+    paths: [.github/audit6-trigger]
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/sixth-hardening-audit-20261015
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Patch Listening reset storage
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          old="localStorage.removeItem(storageKey()); setMode('practice');"
+          new="window.__safeStorage.removeItem(storageKey()); setMode('practice');"
+          if old not in s: raise SystemExit('reset anchor missing')
+          s=s.replace(old,new,1)
+          p.write_text(s)
+          PY
+      - run: node --test tests/*.test.mjs
+      - name: Commit patch
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html
+          git diff --cached --quiet || git commit -m "fix: harden Listening reset storage"
+          git push
