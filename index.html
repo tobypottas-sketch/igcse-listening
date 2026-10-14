@@ -695,7 +695,7 @@ function showTab(tab){
 function setMode(mode){
   const st=getState();
   const changed = st.mode !== mode;
-  if(changed && Object.keys(st.answers || {}).length && !window.confirm('Switch mode? This will clear the current listening attempt.')) return;
+  if(changed && Object.keys(st.answers || {}).length && !window.confirm('Switch mode? This will clear the current listening attempt.')) return false;
   if(changed){
     st.mode=mode;
     st.answers={};
@@ -713,6 +713,7 @@ function setMode(mode){
     saveState(st);
   }
   updateModeUI();
+  return true;
 }
 
 function updateModeUI(){
@@ -969,8 +970,9 @@ function togglePracticeReviewAnswers(){
 }
 function resetAllAnswers(){
   const st=getState();
-  if(Object.keys(st.answers || {}).length && !window.confirm('Reset all listening answers and start again?')) return;
-  localStorage.removeItem(STORE_KEY); setMode('practice'); renderSectionButtons(); openSection(currentSectionId || 'ex1'); renderResults(); renderProgress(); renderReview();
+  if(Object.keys(st.answers || {}).length && !window.confirm('Reset all listening answers and start again?')) return false;
+  localStorage.removeItem(storageKey()); setMode('practice'); renderSectionButtons(); openSection(currentSectionId || 'ex1'); renderResults(); renderProgress(); renderReview();
+  return true;
 }
 
 function playCurrentSection(){
