@@ -9,6 +9,8 @@ test('Listening local state is scoped by Hub user namespace',()=>{
   assert.match(html,/function\s+storageKey\s*\(/);
   assert.doesNotMatch(html,/__safeStorage\.getItem\(STORE_KEY\)/);
   assert.doesNotMatch(html,/__safeStorage\.setItem\(STORE_KEY/);
+  assert.doesNotMatch(html,/localStorage\.removeItem\(STORE_KEY\)/);
+  assert.match(html,/localStorage\.removeItem\(storageKey\(\)\)/);
 });
 
 test('embedded Listening waits for authenticated Hub context before loading state',()=>{
@@ -16,4 +18,9 @@ test('embedded Listening waits for authenticated Hub context before loading stat
   assert.match(html,/window\.parent\s*===\s*window/);
   assert.match(html,/event\.origin\s*!==\s*window\.location\.origin/);
   assert.match(html,/function\s+initialiseListeningApp\s*\(/);
+});
+
+test('Listening mode/reset actions report cancelled versus completed actions',()=>{
+  assert.match(html,/function\s+setMode\s*\([\s\S]*confirm[\s\S]*return false[\s\S]*return true/);
+  assert.match(html,/function\s+resetAllAnswers\s*\([\s\S]*confirm[\s\S]*return false[\s\S]*return true/);
 });
