@@ -971,7 +971,7 @@ function togglePracticeReviewAnswers(){
 function resetAllAnswers(){
   const st=getState();
   if(Object.keys(st.answers || {}).length && !window.confirm('Reset all listening answers and start again?')) return false;
-  localStorage.removeItem(storageKey()); setMode('practice'); renderSectionButtons(); openSection(currentSectionId || 'ex1'); renderResults(); renderProgress(); renderReview();
+  window.__safeStorage.removeItem(storageKey()); setMode('practice'); renderSectionButtons(); openSection(currentSectionId || 'ex1'); renderResults(); renderProgress(); renderReview();
   return true;
 }
 
