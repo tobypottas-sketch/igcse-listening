@@ -538,6 +538,7 @@ body{
         <div class="stat"><div class="v" id="scoreWrong">0</div><div>Incorrect</div></div>
         <div class="stat"><div class="v" id="scoreDone">0</div><div>Answered</div></div>
         <div class="stat"><div class="v" id="scorePercent">0%</div><div>Accuracy</div></div>
+        <div class="stat"><div class="v" id="scoreGrade">—</div><div>Estimated 0511 listening grade</div><div class="small" style="margin-top:6px">June 2026 · Component 22 · practice estimate, not an official Cambridge result</div></div>
       </div>
     </div>
   </section>
@@ -921,6 +922,14 @@ function renderFeedback(q, stored){
   return '<div class="notice gold">Try again. '+q.hint+'</div>';
 }
 
+function estimate0511Component22Grade(percent){
+  const thresholds=[35,32,29,26,23,20,17];
+  const grades=['A','B','C','D','E','F','G'];
+  const raw=(Number(percent)||0)*40/100;
+  for(let i=0;i<thresholds.length;i++){ if(raw>=thresholds[i]) return grades[i]; }
+  return 'U';
+}
+
 function renderResults(){
   const st=getState();
   const locked=st.mode==='exam' && !st.examSubmitted;
@@ -930,10 +939,12 @@ function renderResults(){
   if(stats) stats.style.display=locked?'none':'grid';
   if(locked) return;
   const vals=Object.values(st.answers), done=vals.length, correct=vals.filter(v=>v.correct).length, wrong=vals.filter(v=>!v.correct).length, pct=done?Math.round(correct/done*100):0;
+  const gradeComplete = questions.length>0 && done >= questions.length;
   document.getElementById('scoreCorrect').textContent=String(correct);
   document.getElementById('scoreWrong').textContent=String(wrong);
   document.getElementById('scoreDone').textContent=String(done);
   document.getElementById('scorePercent').textContent=pct+'%';
+  document.getElementById('scoreGrade').textContent=gradeComplete?estimate0511Component22Grade(pct):'—';
 }
 function renderProgress(){
   const st=getState(), done=Object.keys(st.answers).length, pct=Math.round(done/questions.length*100);
