@@ -24,3 +24,93 @@ body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSyst
 .topbar .tab:focus-visible, .btn:focus-visible, .hub-return-link:focus-visible { outline: 3px solid #2e73d6; outline-offset: 3px; }
 @media(max-width:700px) { .topbar .tab { padding: 10px 12px; } }
 @media(prefers-reduced-motion:reduce) { .topbar .tab, .btn { transition: none; } }
+
+/* Listening Overview — compact academic styling (phase 2). */
+/* Overview only: preserve all listening exercise, audio and assessment states. */
+#panel-overview .grid {
+  grid-template-columns: minmax(270px, 320px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+#panel-overview .card {
+  border-radius: 16px;
+  padding: 18px;
+}
+#panel-overview .card.stack { gap: 10px; }
+#panel-overview .card h3 { margin-bottom: 2px; }
+#panel-overview #modePractice.btn.primary,
+#panel-overview #modeExam.btn.primary {
+  background: var(--suite-teal);
+  border-color: var(--suite-teal);
+  color: #fff;
+  box-shadow: none;
+}
+#panel-overview #modePractice.btn.primary:hover,
+#panel-overview #modeExam.btn.primary:hover { background: var(--suite-teal-dark); }
+#panel-overview .modebtn.active { outline: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.24); }
+#panel-overview #modeNotice {
+  background: #edf7f6;
+  border: 1px solid #cfe6e3;
+  color: #2c4a4b;
+  border-radius: 12px;
+  padding: 11px 13px;
+  font-size: .875rem;
+  line-height: 1.5;
+}
+#panel-overview .progressbar { background: #e7f0ef; }
+#panel-overview .progressbar .fill { background: var(--suite-teal); }
+#panel-overview .resource-notes-card { padding: 19px; background: #fff; }
+#panel-overview .resource-notes-heading { margin-bottom: 5px; }
+#panel-overview .resource-notes-heading h2 { font-size: 1.4rem; }
+#panel-overview .resource-notes-card .resource-note {
+  min-height: 0;
+  margin: 0;
+  padding: 12px 14px 12px 55px;
+  border: 1px solid #d7e6eb;
+  border-radius: 12px;
+  background: #f7fbfb;
+  color: #273f4b;
+  font-size: .975rem;
+  line-height: 1.45;
+  box-shadow: none;
+}
+#panel-overview .resource-notes-card .resource-note::before {
+  left: 13px;
+  width: 29px;
+  height: 29px;
+  border-color: #b9dcd8;
+  color: var(--suite-teal-dark);
+  background: #fff;
+  font-size: .7rem;
+}
+#panel-overview #audioReadinessList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+#panel-overview #audioReadinessList .notice {
+  margin: 0;
+  padding: 8px 10px !important;
+  border-radius: 10px;
+  font-size: .8rem;
+  line-height: 1.3;
+}
+#panel-overview #audioReadinessList .notice.green {
+  background: #ecf7f2;
+  border-color: #cde6da;
+  color: #285e4b;
+}
+.topbar .tab:focus:not(:focus-visible) { outline: none; }
+.topbar .tab:focus-visible {
+  outline: 2px solid var(--suite-teal-dark);
+  outline-offset: 2px;
+}
+@media (max-width: 1180px) {
+  #panel-overview .grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 699px) {
+  #panel-overview .card { padding: 15px; }
+  #panel-overview .resource-notes-card .resource-note { padding: 11px 12px 11px 49px; font-size: .925rem; }
+  #panel-overview .resource-notes-card .resource-note::before { left: 10px; width: 28px; height: 28px; }
+  #panel-overview #audioReadinessList { grid-template-columns: 1fr; }
+}
